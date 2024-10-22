@@ -2,7 +2,7 @@
  * @name BDFDB
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 3.7.9
+ * @version 3.8.1
  * @description Required Library for DevilBro's Plugins
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -3989,6 +3989,7 @@ module.exports = (_ => {
 												separator: config.headerSeparator || false,
 												children: [
 													BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex.Child, {
+														style: {flex: 1},
 														children: [
 															BDFDB.ReactUtils.createElement(Internal.LibraryComponents.FormComponents.FormTitle, {
 																tag: Internal.LibraryComponents.FormComponents.FormTags && Internal.LibraryComponents.FormComponents.FormTags.H4,
@@ -4759,14 +4760,6 @@ module.exports = (_ => {
 								this.props.input && BDFDB.ReactUtils.createElement("div", {
 									className: BDFDB.disCN.menuiconcontainer,
 									children: this.props.input
-								}),
-								this.props.imageUrl && BDFDB.ReactUtils.createElement("div", {
-									className: BDFDB.disCN.menuimagecontainer,
-									children: BDFDB.ReactUtils.createElement("img", {
-										className: BDFDB.disCN.menuimage,
-										src: typeof this.props.imageUrl == "function" ? this.props.imageUrl(this) : this.props.imageUrl,
-										alt: ""
-									})
 								})
 							].filter(n => n)
 						}, this.props.menuItemProps, {isFocused: focused}));
@@ -6172,15 +6165,6 @@ module.exports = (_ => {
 				};
 				
 				CustomComponents.FileButton = reactInitialized && class BDFDB_FileButton extends Internal.LibraryModules.React.Component {
-					componentDidMount() {
-						if (this.props.searchFolders) {
-							let node = BDFDB.ReactUtils.findDOMNode(this);
-							if (node && (node = node.querySelector("input[type='file']")) != null) {
-								node.setAttribute("directory", "");
-								node.setAttribute("webkitdirectory", "");
-							}
-						}
-					}
 					render() {
 						let filter = this.props.filter && [this.props.filter].flat(10).filter(n => typeof n == "string") || [];
 						return BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Button, BDFDB.ObjectUtils.exclude(Object.assign({}, this.props, {
@@ -6194,14 +6178,25 @@ module.exports = (_ => {
 									onChange: e => {
 										let file = e.currentTarget.files[0];
 										if (this.refInput && file && (!filter.length || filter.some(n => file.type.indexOf(n) == 0))) {
-											this.refInput.props.value = this.props.searchFolders ? file.path.split(file.name).slice(0, -1).join(file.name) : `${this.props.mode == "url" ? "url('" : ""}${(this.props.useFilePath) ? file.path : `data:${file.type};base64,${Internal.LibraryRequires.fs.readFileSync(file.path, "base64")}`}${this.props.mode ? "')" : ""}`;
-											BDFDB.ReactUtils.forceUpdate(this.refInput);
-											this.refInput.handleChange(this.refInput.props.value);
+											let reader = new FileReader();
+											reader.onload = _ => {
+												if (file.size > (!isNaN(this.props.maxSize) && this.props.maxSize > 0 ? this.props.maxSize : 5.1*1024*1024)) BDFDB.NotificationUtils.toast("File too large to upload (Max 5MB)", {type: "danger", position: "center"});
+												else {
+													function Uint8ToString(u8a) {
+														const CHUNK_SZ = 0x8000;
+														let c = [];
+														for (let i = 0; i < u8a.length; i += CHUNK_SZ) c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+														return c.join("");
+													}
+													this.refInput.handleChange(file.name, `${this.props.mode == "url" ? "url('" : ""}${`data:${file.type};base64,${btoa(Uint8ToString(new Uint8Array(reader.result)))}`}${this.props.mode ? "')" : ""}`);
+												}
+											}
+											reader.readAsArrayBuffer(file);
 										}
 									}
 								})
 							]
-						}), "filter", "mode", "useFilePath", "searchFolders"));
+						}), "filter", "mode"));
 					}
 				};
 				
@@ -6213,7 +6208,6 @@ module.exports = (_ => {
 							style: this.props.style,
 							children: [
 								BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex, {
-									align: Internal.LibraryComponents.Flex.Align.BASELINE,
 									children: [
 										this.props.title != null || this.props.error != null ? BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex.Child, {
 											wrap: true,
@@ -7685,9 +7679,10 @@ module.exports = (_ => {
 				};
 				
 				CustomComponents.TextInput = reactInitialized && class BDFDB_TextInput extends Internal.LibraryModules.React.Component {
-					handleChange(e) {
+					handleChange(e, e2) {
 						let value = e = BDFDB.ObjectUtils.is(e) ? e.currentTarget.value : e;
 						this.props.value = this.props.valuePrefix && !value.startsWith(this.props.valuePrefix) ? (this.props.valuePrefix + value) : value;
+						this.props.file = e2 = BDFDB.ObjectUtils.is(e2) ? e2.currentTarget.value : e2;
 						if (typeof this.props.onChange == "function") this.props.onChange(this.props.value, this);
 						BDFDB.ReactUtils.forceUpdate(this);
 					}
@@ -7738,7 +7733,7 @@ module.exports = (_ => {
 								maxLength: this.props.type == "file" ? false : this.props.maxLength,
 								style: this.props.width ? {width: `${this.props.width}px`} : {},
 								ref: this.props.inputRef
-							}), "errorMessage", "focused", "error", "success", "inputClassName", "inputChildren", "valuePrefix", "inputPrefix", "size", "editable", "inputRef", "style", "mode", "colorPickerOpen", "noAlpha", "filter", "useFilePath", "searchFolders")),
+							}), "errorMessage", "focused", "error", "success", "inputClassName", "inputChildren", "valuePrefix", "inputPrefix", "size", "editable", "inputRef", "style", "mode", "colorPickerOpen", "noAlpha", "filter")),
 							this.props.inputChildren,
 							this.props.type == "color" ? BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex.Child, {
 								wrap: true,
@@ -7756,8 +7751,6 @@ module.exports = (_ => {
 							this.props.type == "file" ? BDFDB.ReactUtils.createElement(Internal.LibraryComponents.FileButton, {
 								filter: this.props.filter,
 								mode: this.props.mode,
-								useFilePath: this.props.useFilePath,
-								searchFolders: this.props.searchFolders,
 								ref: this.props.controlsRef
 							}) : null
 						].flat(10).filter(n => n);
@@ -7793,6 +7786,7 @@ module.exports = (_ => {
 									]
 								}) : null,
 								inputChildren.length == 1 ? inputChildren[0] : BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex, {
+									wrap: Internal.LibraryComponents.Flex.Wrap.NO_WRAP,
 									align: Internal.LibraryComponents.Flex.Align.CENTER,
 									children: inputChildren.map((child, i) => i != 0 ? BDFDB.ReactUtils.createElement(Internal.LibraryComponents.Flex.Child, {
 										shrink: 0,
