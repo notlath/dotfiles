@@ -1,11 +1,11 @@
 sort=-time
 layer=overlay
-background-color=#201a19
+background-color=#130c43
 width=300
 height=110
 border-size=3
-text-color=#c7c5c5
-border-color=#B0C4D1
+text-color=#c4c2d0
+border-color=#CC8DB3
 border-radius=10
 icons=1
 padding=24
