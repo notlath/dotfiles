@@ -16,7 +16,7 @@ This repository contains my personal configuration files (dotfiles) tailored for
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/archlinux-hyprland-dotfiles.git ~/.dotfiles
+   git clone https://github.com/notlath/archlinux-hyprland-dotfiles.git ~/.dotfiles
    ```
 2. Navigate to the dotfiles directory:
    ```bash
