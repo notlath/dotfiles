@@ -22,14 +22,11 @@ This repository contains my personal configuration files (dotfiles) for an ArchL
 
 ### Desktop Environment
 
-![Desktop Setup](Screenshot_2025-11-21-02-54-03_8797.png)
-_Hyprland desktop with Waybar and custom wallpaper_
+![Desktop Setup](Wallpapers/Screenshot_2025-11-21-02-54-03_8797.png)
 
-![Neofetch Display](Screenshot_2025-11-21-02-54-19_10427.png)
-_Neofetch system information with custom logo_
+![Neofetch Display](Wallpapers/Screenshot_2025-11-21-02-54-19_10427.png)
 
-![Workspace Overview](Screenshot_2025-11-21-02-55-26_12629.png)
-_Terminal with cava visualizer and system monitoring_
+![Workspace Overview](Wallpapers/Screenshot_2025-11-21-02-55-26_12629.png)
 
 ## Clean Installation Guide
 
