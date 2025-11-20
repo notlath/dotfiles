@@ -21,14 +21,15 @@ This repository contains my personal configuration files (dotfiles) for an ArchL
 ## Preview
 
 ### Desktop Environment
+
 ![Desktop Setup](Screenshot_2025-11-21-02-54-03_8797.png)
-*Hyprland desktop with Waybar and custom wallpaper*
+_Hyprland desktop with Waybar and custom wallpaper_
 
 ![Neofetch Display](Screenshot_2025-11-21-02-54-19_10427.png)
-*Neofetch system information with custom logo*
+_Neofetch system information with custom logo_
 
 ![Workspace Overview](Screenshot_2025-11-21-02-55-26_12629.png)
-*Terminal with cava visualizer and system monitoring*
+_Terminal with cava visualizer and system monitoring_
 
 ## Clean Installation Guide
 
@@ -239,57 +240,57 @@ spicetify backup apply
 
 ### General
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + Return` | Open terminal (Kitty) |
-| `Super + Shift + Return` | Open terminal with Ranger |
-| `Super + Q` | Close active window |
-| `Super + D` | Application launcher |
-| `Super + Space` | Web search |
-| `Super + Semicolon / Period` | Emoji picker |
-| `Super + W` | Wallpaper selector |
-| `Super + X` | Power menu |
-| `Super + E` | VS Code |
-| `Super + F` | Toggle fullscreen |
-| `Super + Shift + Space` | Toggle floating |
+| Keybinding                   | Action                    |
+| ---------------------------- | ------------------------- |
+| `Super + Return`             | Open terminal (Kitty)     |
+| `Super + Shift + Return`     | Open terminal with Ranger |
+| `Super + Q`                  | Close active window       |
+| `Super + D`                  | Application launcher      |
+| `Super + Space`              | Web search                |
+| `Super + Semicolon / Period` | Emoji picker              |
+| `Super + W`                  | Wallpaper selector        |
+| `Super + X`                  | Power menu                |
+| `Super + E`                  | VS Code                   |
+| `Super + F`                  | Toggle fullscreen         |
+| `Super + Shift + Space`      | Toggle floating           |
 
 ### Workspaces
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + [1-9]` | Switch to workspace |
-| `Super + Ctrl + [1-9]` | Move window to workspace |
+| Keybinding              | Action                            |
+| ----------------------- | --------------------------------- |
+| `Super + [1-9]`         | Switch to workspace               |
+| `Super + Ctrl + [1-9]`  | Move window to workspace          |
 | `Super + Shift + [1-9]` | Move window silently to workspace |
-| `Super + Mouse Wheel` | Scroll through workspaces |
+| `Super + Mouse Wheel`   | Scroll through workspaces         |
 
 ### Window Management
 
-| Keybinding | Action |
-|------------|--------|
-| `Super + Arrow Keys` | Move focus |
-| `Super + Mouse Left` | Move window |
-| `Super + Mouse Right` | Resize window |
-| `Alt + Tab` | Next workspace |
+| Keybinding            | Action         |
+| --------------------- | -------------- |
+| `Super + Arrow Keys`  | Move focus     |
+| `Super + Mouse Left`  | Move window    |
+| `Super + Mouse Right` | Resize window  |
+| `Alt + Tab`           | Next workspace |
 
 ### Applications (Ctrl + Alt)
 
-| Keybinding | Action |
-|------------|--------|
-| `Ctrl + Alt + T` | Kitty terminal |
-| `Ctrl + Alt + F` | Firefox |
-| `Ctrl + Alt + I` | Brave browser |
-| `Ctrl + Alt + N` | Notion |
+| Keybinding       | Action              |
+| ---------------- | ------------------- |
+| `Ctrl + Alt + T` | Kitty terminal      |
+| `Ctrl + Alt + F` | Firefox             |
+| `Ctrl + Alt + I` | Brave browser       |
+| `Ctrl + Alt + N` | Notion              |
 | `Ctrl + Alt + B` | Thunar file manager |
-| `Ctrl + Alt + U` | Pavucontrol |
+| `Ctrl + Alt + U` | Pavucontrol         |
 
 ### System
 
-| Keybinding | Action |
-|------------|--------|
-| `Print Screen` | Screenshot area |
-| `Super + Print Screen` | Screenshot now |
-| `Brightness Up/Down` | Adjust brightness |
-| `Volume Up/Down` | Adjust volume |
+| Keybinding             | Action            |
+| ---------------------- | ----------------- |
+| `Print Screen`         | Screenshot area   |
+| `Super + Print Screen` | Screenshot now    |
+| `Brightness Up/Down`   | Adjust brightness |
+| `Volume Up/Down`       | Adjust volume     |
 
 ## Customization
 
@@ -312,6 +313,7 @@ Edit `~/.config/waybar/config.json` for modules and `~/.config/waybar/style.css`
 ### Hyprland Settings
 
 Main configuration: `~/.config/hypr/hyprland.conf`
+
 - Adjust animations, gaps, borders, and opacity
 - Modify keybindings
 - Add window rules
@@ -333,18 +335,22 @@ Main configuration: `~/.config/hypr/hyprland.conf`
 ## Troubleshooting
 
 ### Hyprland won't start
+
 - Ensure all required packages are installed
 - Check logs: `~/.hyprland/hyprland.log`
 
 ### Waybar not showing
+
 - Run manually: `waybar` in terminal to see errors
 - Check configuration syntax in `config.json`
 
 ### Colors not applying
+
 - Regenerate Pywal cache: `wal -i ~/Wallpapers/your-wallpaper.png`
 - Restart applications
 
 ### Scripts not working
+
 - Ensure scripts are executable: `chmod +x ~/.config/hypr/scripts/*`
 - Check script paths in `hyprland.conf`
 
