@@ -1,0 +1,14 @@
+[Default Applications]
+x-scheme-handler/mailto=brave-browser.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
+
+[Added Associations]
+application/x-shellscript=code.desktop;
+text/x-csrc=code.desktop;
+text/html=brave-browser.desktop;code.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;
+image/jpeg=brave-browser.desktop;viewnior.desktop;
+application/x-subrip=code.desktop;org.gnome.gedit.desktop;
+text/plain=code-insiders.desktop;code.desktop;
+inode/directory=code-insiders.desktop;code.desktop;
+application/x-zerosize=code.desktop;
