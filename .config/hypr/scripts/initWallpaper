@@ -2,14 +2,24 @@
 
 export PATH="${PATH}:${HOME}/.local/bin/"
 
-swww init
+# Start swww daemon
+if ! pgrep -x "swww-daemon" > /dev/null; then
+    swww-daemon &
+    sleep 1
+fi
 
 if [ -e "${HOME}/.cache/wal/colors" ]; then
+    # Restore last wallpaper if it exists
+    if [ -e "${HOME}/.cache/wal/wal" ]; then
+        LAST_WALLPAPER=$(cat "${HOME}/.cache/wal/wal")
+        swww img "${LAST_WALLPAPER}" --transition-type grow --transition-fps 60 --transition-duration 1.0 --transition-pos 0.810,0.972 --transition-bezier 0.65,0,0.35,1 --transition-step 255
+    fi
+    
     wal -R --cols16
     pywalfox update
     pywal-discord -t default
 
-    echo "Cached colors exist. Using existing colors."
+    echo "Cached colors exist. Using existing colors and wallpaper."
 else
     DIR=$HOME/Wallpapers
     PICS=($(ls ${DIR}))
@@ -26,4 +36,3 @@ fi
 
 . $HOME/.config/mako/update-colors.sh
 . $HOME/.config/spicetify/Themes/Pywal/update-colors.sh
-. $HOME/.config/cava/scripts/update-colors.sh
