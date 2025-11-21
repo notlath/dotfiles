@@ -2,7 +2,16 @@
 
 export PATH="${PATH}:${HOME}/.local/bin/"
 
-CURRENTIMG="$(<~/.cache/wal/wal )"
+# Source the colors.sh to get the actual wallpaper path
+if [[ -f "${HOME}/.cache/wal/colors.sh" ]]; then
+    source "${HOME}/.cache/wal/colors.sh"
+    CURRENTIMG="$wallpaper"
+else
+    echo "Error: colors.sh not found. Please run wal first."
+    notify-send "Error" "Pywal colors not found. Please set a wallpaper first."
+    exit 1
+fi
+
 MODE=""
 
 if [[ -e "${HOME}/.cache/wal/mode" ]]; then
@@ -21,9 +30,7 @@ if [[ $MODE = "light" ]]; then
 
     MODE="dark"
 
-    wal -i $CURRENTIMG --cols16
-
-    . $HOME/.config/mako/update-colors.sh
+    wal -i "$CURRENTIMG" --cols16 -n
 
     set -o noclobber
     echo "dark" >| ${HOME}/.cache/wal/mode
@@ -34,12 +41,19 @@ else
 
     MODE="light"
 
-    wal -i $CURRENTIMG -l --cols16
-
-    . $HOME/.config/mako/update-colors.sh
+    wal -i "$CURRENTIMG" -l --cols16 -n
 
     set -o noclobber
     echo "light" >| ${HOME}/.cache/wal/mode
 
     notify-send "Changed to light theme!"
 fi
+
+# Update all applications with new colors
+pywalfox update
+pywal-discord -t default
+. $HOME/.config/mako/update-colors.sh
+. $HOME/.config/spicetify/Themes/Pywal/update-colors.sh
+
+# Reload waybar to pick up new colors
+killall -SIGUSR2 waybar

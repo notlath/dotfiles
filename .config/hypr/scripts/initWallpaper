@@ -15,7 +15,13 @@ if [ -e "${HOME}/.cache/wal/colors" ]; then
         swww img "${LAST_WALLPAPER}" --transition-type grow --transition-fps 60 --transition-duration 1.0 --transition-pos 0.810,0.972 --transition-bezier 0.65,0,0.35,1 --transition-step 255
     fi
     
-    wal -R --cols16
+    # Check mode and restore with correct flag
+    if [[ -e "${HOME}/.cache/wal/mode" && "$(<~/.cache/wal/mode)" = "light" ]]; then
+        wal -R -l --cols16
+    else
+        wal -R --cols16
+    fi
+    
     pywalfox update
     pywal-discord -t default
 

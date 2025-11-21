@@ -47,17 +47,31 @@ theme='style-1'
 
 wallpapers=$HOME/Wallpapers
 image="$(ls $wallpapers | rofi -dmenu -i -p "  Select wallpaper: " -theme ${dir}/${theme}.rasi)"
+
+# Exit if user pressed escape or no selection was made
+if [[ -z "$image" ]]; then
+    echo "No wallpaper selected. Exiting."
+    exit 0
+fi
+
 wallpaper=$wallpapers/$image
 
-if [[ -d $wallpapers/$image ]]; then
+if [[ -d "$wallpaper" ]]; then
     # choose a file inside the selected directory
     sleep 2
-    inner="$(ls "$wallpapers/$image" | wofi -n --show dmenu -k "/dev/null")"
-    wallpaper="$wallpapers/$image/$inner"
-elif [[ -f $wallpapers/$image ]]; then
-    wallpaper="$wallpapers/$image"
+    inner="$(ls "$wallpaper" | wofi -n --show dmenu -k "/dev/null")"
+    
+    # Exit if user pressed escape on the nested selection
+    if [[ -z "$inner" ]]; then
+        echo "No wallpaper selected from directory. Exiting."
+        exit 0
+    fi
+    
+    wallpaper="$wallpaper/$inner"
+elif [[ -f "$wallpaper" ]]; then
+    wallpaper="$wallpaper"
 else
-    echo "$wallpapers/$image is not valid"
+    echo "$wallpaper is not valid"
     exit 1
 fi
 
