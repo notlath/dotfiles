@@ -42,6 +42,15 @@
 
 export PATH="${PATH}:${HOME}/.local/bin/"
 
+# Create a lock to prevent multiple instances
+LOCKFILE="/tmp/wallpaper-change.lock"
+if [ -e "$LOCKFILE" ]; then
+    echo "Another wallpaper change is in progress. Exiting."
+    exit 0
+fi
+touch "$LOCKFILE"
+trap "rm -f $LOCKFILE" EXIT
+
 dir="$HOME/.config/rofi/launchers/type-1"
 theme='style-1'
 
@@ -85,10 +94,34 @@ swww img $wallpaper --transition-type grow --transition-fps 60 --transition-dura
 
 sleep 1.25
 
-if [[ "$(<~/.cache/wal/mode )" = "dark" ]]; then
-  wal -i $wallpaper --cols16
-elif [[ "$(<~/.cache/wal/mode )" = "light" ]]; then
+# Log before reading mode
+echo "[$(date '+%H:%M:%S')] Rofi wallpaper: Before reading mode: $(cat ~/.cache/wal/mode 2>/dev/null || echo 'no file')" >> ~/.cache/wal/wallpaper-changes.log
+
+# Check if mode file exists, default to dark if not
+if [[ -e "${HOME}/.cache/wal/mode" ]]; then
+    MODE="$(cat ~/.cache/wal/mode | tr -d '[:space:]')"
+else
+    mkdir -p "${HOME}/.cache/wal"
+    echo "dark" > "${HOME}/.cache/wal/mode"
+    MODE="dark"
+fi
+
+# Validate mode value
+if [[ "$MODE" != "light" && "$MODE" != "dark" ]]; then
+    echo "dark" > "${HOME}/.cache/wal/mode"
+    MODE="dark"
+fi
+
+if [[ "$MODE" = "light" ]]; then
   wal -i $wallpaper -l --cols16
+  # Ensure mode persists after wal runs
+  echo "light" > "${HOME}/.cache/wal/mode"
+  echo "[$(date '+%H:%M:%S')] Rofi wallpaper: Applied LIGHT mode to $wallpaper" >> ~/.cache/wal/wallpaper-changes.log
+else
+  wal -i $wallpaper --cols16
+  # Ensure mode persists after wal runs
+  echo "dark" > "${HOME}/.cache/wal/mode"
+  echo "[$(date '+%H:%M:%S')] Rofi wallpaper: Applied DARK mode to $wallpaper" >> ~/.cache/wal/wallpaper-changes.log
 fi
 
 pywalfox update

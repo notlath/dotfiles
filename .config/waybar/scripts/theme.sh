@@ -14,39 +14,60 @@ fi
 
 MODE=""
 
+# Ensure the mode file directory exists
+mkdir -p "${HOME}/.cache/wal"
+
 if [[ -e "${HOME}/.cache/wal/mode" ]]; then
-    MODE="$(<~/.cache/wal/mode )"
+    MODE="$(cat ~/.cache/wal/mode | tr -d '[:space:]')"
 else
-    cd ${HOME}/.cache/wal && touch mode
-
-    set -o noclobber
-    echo "dark" >| ${HOME}/.cache/wal/mode
-
+    echo "dark" > "${HOME}/.cache/wal/mode"
     MODE="dark"
 fi
 
-if [[ $MODE = "light" ]]; then
-    notify-send "Changing to dark theme..."
-
+# Default to dark if mode file is empty or invalid
+if [[ -z "$MODE" ]] || [[ "$MODE" != "light" && "$MODE" != "dark" ]]; then
+    echo "dark" > "${HOME}/.cache/wal/mode"
     MODE="dark"
+fi
 
-    wal -i "$CURRENTIMG" --cols16 -n
+if [[ "$MODE" = "light" ]]; then
+    notify-send "Switching to Dark Mode" "Applying dark theme..."
 
-    set -o noclobber
-    echo "dark" >| ${HOME}/.cache/wal/mode
+    wal -i "$CURRENTIMG" --cols16
+    
+    # Write mode file and verify
+    echo "dark" > "${HOME}/.cache/wal/mode"
+    sync
+    
+    # Log for debugging
+    echo "[$(date '+%H:%M:%S')] Switched from light to dark" >> ~/.cache/wal/theme-toggle.log
 
-    notify-send "Changed to dark theme!"
+    notify-send "Dark Mode Activated" "Theme changed successfully!"
 else
-    notify-send "Changing to light theme..."
+    notify-send "Switching to Light Mode" "Applying light theme..."
 
-    MODE="light"
+    wal -i "$CURRENTIMG" -l --cols16
+    
+    # Write mode file and verify
+    echo "light" > "${HOME}/.cache/wal/mode"
+    sync
 
-    wal -i "$CURRENTIMG" -l --cols16 -n
+# Don't run these during theme toggle - they're for wallpaper changes
+# . $HOME/.config/mako/update-colors.sh
+# . $HOME/.config/spicetify/Themes/Pywal/update-colors.sh
 
-    set -o noclobber
-    echo "light" >| ${HOME}/.cache/wal/mode
+# Just reload mako without the "Wallpaper updated" notification
+. "${HOME}/.cache/wal/colors.sh"
+conffile="${HOME}/.config/mako/config"
+declare -A colors
+colors=(["background-color"]="$background" ["text-color"]="$foreground" ["border-color"]="$color13")
+for color_name in "${!colors[@]}"; do
+  sed -i "0,/^$color_name.*/{s//$color_name=${colors[$color_name]}/}" $conffile
+done
+makoctl reload
+    echo "[$(date '+%H:%M:%S')] Switched from dark to light" >> ~/.cache/wal/theme-toggle.log
 
-    notify-send "Changed to light theme!"
+    notify-send "Light Mode Activated" "Theme changed successfully!"
 fi
 
 # Update all applications with new colors

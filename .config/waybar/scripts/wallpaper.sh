@@ -15,10 +15,34 @@ swww img ${DIR}/${RANDOMPICS} --transition-type grow --transition-fps 60 --trans
 
 sleep 1.25
 
-if [[ "$(<~/.cache/wal/mode )" = "dark" ]]; then
-  wal -i ${DIR}/${RANDOMPICS} --cols16
-elif [[ "$(<~/.cache/wal/mode )" = "light" ]]; then
+# Log before reading mode
+echo "[$(date '+%H:%M:%S')] Waybar wallpaper: Before reading mode: $(cat ~/.cache/wal/mode 2>/dev/null || echo 'no file')" >> ~/.cache/wal/wallpaper-changes.log
+
+# Check if mode file exists, default to dark if not
+if [[ -e "${HOME}/.cache/wal/mode" ]]; then
+    MODE="$(cat ~/.cache/wal/mode | tr -d '[:space:]')"
+else
+    mkdir -p "${HOME}/.cache/wal"
+    echo "dark" > "${HOME}/.cache/wal/mode"
+    MODE="dark"
+fi
+
+# Validate mode value
+if [[ "$MODE" != "light" && "$MODE" != "dark" ]]; then
+    echo "dark" > "${HOME}/.cache/wal/mode"
+    MODE="dark"
+fi
+
+if [[ "$MODE" = "light" ]]; then
   wal -i ${DIR}/${RANDOMPICS} -l --cols16
+  # Ensure mode persists after wal runs
+  echo "light" > "${HOME}/.cache/wal/mode"
+  echo "[$(date '+%H:%M:%S')] Waybar wallpaper: Applied LIGHT mode to ${RANDOMPICS}" >> ~/.cache/wal/wallpaper-changes.log
+else
+  wal -i ${DIR}/${RANDOMPICS} --cols16
+  # Ensure mode persists after wal runs
+  echo "dark" > "${HOME}/.cache/wal/mode"
+  echo "[$(date '+%H:%M:%S')] Waybar wallpaper: Applied DARK mode to ${RANDOMPICS}" >> ~/.cache/wal/wallpaper-changes.log
 fi
 
 pywal-discord -t default
