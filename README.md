@@ -353,6 +353,7 @@ Main configuration: `~/.config/hypr/hyprland.conf`
 
 ## Credits
 
+- Initial dotfiles structure inspired by [rchrdwllm/dotfiles](https://github.com/rchrdwllm/dotfiles)
 - Hyprland configuration inspired by the Hyprland community
 - Neofetch theme by [Chick2D](https://github.com/Chick2D/neofetch-themes/)
 - Rofi themes customized from various sources
