@@ -1,7 +1,9 @@
 @import "colors-waybar.css";
 
 * {
-  font-family: JetBrainsMono NF, Iosevka Nerd Font;
+  font-family:
+    JetBrainsMono NF,
+    Iosevka Nerd Font;
   font-size: 14px;
 }
 
@@ -57,6 +59,11 @@ window#waybar.hidden {
   margin-left: 8px;
 }
 
+#custom-launcher:hover {
+  background-color: @color1;
+  color: @foreground;
+}
+
 #cpu {
   color: @color10;
 }
@@ -73,12 +80,25 @@ window#waybar.hidden {
   transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.68);
 }
 
+/* Hover effect for INACTIVE workspaces only */
+#workspaces button:not(.active):hover {
+  background-color: @color1;
+  color: @foreground;
+}
+
+/* Active/focused workspace */
 #workspaces button.active {
   color: @color9;
   margin-left: 0em;
   margin-right: 0em;
   padding-left: 0px;
   transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.68);
+}
+
+/* Hover effect for active workspace (visually distinct) */
+#workspaces button.active:hover {
+  background-color: @color10;
+  color: @foreground;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -107,6 +127,11 @@ window#waybar.hidden {
 #custom-wallpaper {
   padding: 0 18px 0 12px;
   color: @color14;
+}
+
+#custom-wallpaper:hover {
+  background-color: @color1;
+  color: @foreground;
 }
 
 #bluetooth,
@@ -172,6 +197,11 @@ window#waybar.hidden {
   padding: 0 12px 0 10px;
 }
 
+#custom-power-menu:hover {
+  background-color: @color1;
+  color: @foreground;
+}
+
 @keyframes blink {
   to {
     background-color: rgba(30, 34, 42, 0.5);
@@ -200,4 +230,9 @@ label:focus {
   margin: 6px 3px 0;
   padding: 0 18px 0 12px;
   color: @color14;
+}
+
+#custom-theme:hover {
+  background-color: @color1;
+  color: @foreground;
 }

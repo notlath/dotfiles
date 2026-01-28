@@ -113,12 +113,12 @@ if [[ "$MODE" != "light" && "$MODE" != "dark" ]]; then
 fi
 
 if [[ "$MODE" = "light" ]]; then
-  wal -i $wallpaper -l --cols16
+  wal -i $wallpaper -l
   # Ensure mode persists after wal runs
   echo "light" > "${HOME}/.cache/wal/mode"
   echo "[$(date '+%H:%M:%S')] Rofi wallpaper: Applied LIGHT mode to $wallpaper" >> ~/.cache/wal/wallpaper-changes.log
 else
-  wal -i $wallpaper --cols16
+  wal -i $wallpaper
   # Ensure mode persists after wal runs
   echo "dark" > "${HOME}/.cache/wal/mode"
   echo "[$(date '+%H:%M:%S')] Rofi wallpaper: Applied DARK mode to $wallpaper" >> ~/.cache/wal/wallpaper-changes.log

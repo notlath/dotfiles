@@ -17,9 +17,9 @@ if [ -e "${HOME}/.cache/wal/colors" ]; then
     
     # Check mode and restore with correct flag
     if [[ -e "${HOME}/.cache/wal/mode" && "$(<~/.cache/wal/mode)" = "light" ]]; then
-        wal -R -l --cols16
+        wal -R -l
     else
-        wal -R --cols16
+        wal -R
     fi
     
     pywalfox update
@@ -33,7 +33,7 @@ else
     RANDOMPICS=${PICS[ $RANDOM % ${#PICS[@]} ]}
 
     swww img ${DIR}/${RANDOMPICS} --transition-type grow --transition-fps 60 --transition-duration 1.0 --transition-pos 0.810,0.972 --transition-bezier 0.65,0,0.35,1 --transition-step 255
-    wal -i ${DIR}/${RANDOMPICS} --cols16
+    wal -i ${DIR}/${RANDOMPICS}
     pywalfox update
     pywal-discord -t default
 

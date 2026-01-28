@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Demonstration: How selection colors auto-update with pywal
+
+echo "=== Automatic Selection Color Update Demo ==="
+echo ""
+echo "📋 Current Workflow:"
+echo ""
+echo "1️⃣  You run: wal -i ~/Wallpapers/new-image.jpg"
+echo "    ↓"
+echo "2️⃣  Wal wrapper function intercepts the command"
+echo "    ↓"
+echo "3️⃣  Pywal generates base colors from wallpaper"
+echo "    ↓"
+echo "4️⃣  postrun.sh automatically executes"
+echo "    ↓"
+echo "5️⃣  generate_selection_colors.py calculates optimal selection colors"
+echo "    ↓"
+echo "6️⃣  Templates regenerate with new colors:"
+echo "    • ~/.cache/wal/alacritty.toml"
+echo "    • ~/.cache/wal/kitty.conf"
+echo "    • ~/.cache/wal/colors-vscode.json"
+echo "    • ~/.cache/wal/colors-gtk.css"
+echo "    ↓"
+echo "7️⃣  Applications reload (where possible)"
+echo ""
+echo "✅ Result: Selection colors automatically match new wallpaper!"
+echo ""
+echo "Current Selection Colors:"
+if [ -f ~/.cache/wal/selection_colors.json ]; then
+    cat ~/.cache/wal/selection_colors.json | python3 -m json.tool 2>/dev/null || cat ~/.cache/wal/selection_colors.json
+else
+    echo "  (Run pywal to generate)"
+fi
+echo ""
+echo "💡 Try it now:"
+echo "  wal -i ~/Wallpapers/any-image.jpg"
+echo ""
+echo "Watch the output - you'll see:"
+echo "  ✓ Generated selection colors (contrast: X.XX:1)"
+echo "  ✓ Pywal post-run complete - selection colors updated"

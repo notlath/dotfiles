@@ -5,7 +5,7 @@ wallpaper='{wallpaper}'
 background='{background}'
 foreground='{foreground}'
 cursor='{cursor}'
-border='{border}'
+border='{foreground}'
 
 color0='{color0}'
 color1='{color1}'

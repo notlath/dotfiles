@@ -7,10 +7,6 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="${PATH}:${HOME}/.local/bin/"
 
-(cat ~/.cache/wal/sequences &)
-
-cat ~/.cache/wal/sequences
-
 source ~/.cache/wal/colors-tty.sh
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
