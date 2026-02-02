@@ -13,10 +13,18 @@ This repository contains my personal configuration files (dotfiles) for an ArchL
 - **Rofi**: Application launcher, web search, emoji picker, wallpaper selector, and power menu
 - **Neofetch**: Custom system information display with personalized ASCII logo
 - **Zsh + Powerlevel10k**: Powerful shell with a beautiful prompt theme
+- **Fish**: Friendly interactive shell alternative
 - **Ranger**: Terminal-based file manager with preview scripts
-- **Mako**: Notification daemon for Wayland
+- **Micro**: Intuitive terminal-based text editor
+- **Mako & SwayNC**: Notification daemons for Wayland
 - **Spicetify**: Themed Spotify client
 - **BetterDiscord**: Enhanced Discord with custom themes
+- **Alacritty & Foot**: Alternative terminal emulators
+- **Fastfetch**: Faster system information display alternative
+- **Btop**: Resource monitor alternative
+- **MPV**: Media player
+- **nwg-shell**: Collection of GTK-based tools (drawer, look, launchers)
+- **Wpaperd**: Wallpaper daemon
 
 ## Preview
 
@@ -53,19 +61,22 @@ Install all required packages in order:
 sudo pacman -S hyprland xdg-desktop-portal-hyprland
 
 # Terminal and shell
-sudo pacman -S kitty zsh
+sudo pacman -S kitty alacritty foot zsh fish
 
 # Status bar and system tray
 sudo pacman -S waybar
 
 # Application launcher and menus
-sudo pacman -S rofi
+sudo pacman -S rofi wofi
 
 # Notification daemon
-sudo pacman -S mako
+sudo pacman -S mako swaync
+
+# Editors
+sudo pacman -S micro
 
 # Audio
-sudo pacman -S pipewire pipewire-pulse pipewire-alsa pavucontrol
+sudo pacman -S pipewire pipewire-pulse pipewire-alsa pavucontrol mpv
 
 # Bluetooth (optional)
 sudo pacman -S bluez bluez-utils blueberry
@@ -74,7 +85,7 @@ sudo pacman -S bluez bluez-utils blueberry
 sudo pacman -S ranger thunar
 
 # System utilities
-sudo pacman -S neofetch htop polkit-kde-agent
+sudo pacman -S neofetch fastfetch htop btop polkit-kde-agent
 
 # Screenshot utility
 sudo pacman -S grim slurp wl-clipboard
@@ -83,10 +94,10 @@ sudo pacman -S grim slurp wl-clipboard
 sudo pacman -S ttf-font-awesome ttf-jetbrains-mono noto-fonts noto-fonts-emoji
 
 # Image viewer and wallpaper
-sudo pacman -S imv swaybg
+sudo pacman -S imv swaybg wpaperd
 
 # Python and Pywal for theming
-sudo pacman -S python python-pip
+sudo pacman -S python python-pip qt5ct qt6ct kvantum
 pip install pywal
 
 # Audio visualizer (optional)
@@ -111,6 +122,9 @@ yay -S spicetify-cli
 
 # BetterDiscord (optional)
 yay -S betterdiscordctl
+
+# nwg-shell tools and other utilities
+yay -S nwg-look nwg-drawer nwg-launchers nwg-dock-hyprland kanshi
 
 # Additional Rofi themes (optional)
 yay -S rofi-emoji
@@ -154,6 +168,28 @@ ln -sf ~/.dotfiles/.config/gtk-3.0 ~/.config/gtk-3.0
 ln -sf ~/.dotfiles/.config/spicetify ~/.config/spicetify
 ln -sf ~/.dotfiles/.config/BetterDiscord ~/.config/BetterDiscord
 ln -sf ~/.dotfiles/.config/htop ~/.config/htop
+ln -sf ~/.dotfiles/.config/alacritty ~/.config/alacritty
+ln -sf ~/.dotfiles/.config/btop ~/.config/btop
+ln -sf ~/.dotfiles/.config/cava ~/.config/cava
+ln -sf ~/.dotfiles/.config/fastfetch ~/.config/fastfetch
+ln -sf ~/.dotfiles/.config/fish ~/.config/fish
+ln -sf ~/.dotfiles/.config/foot ~/.config/foot
+ln -sf ~/.dotfiles/.config/gtk-2.0 ~/.config/gtk-2.0
+ln -sf ~/.dotfiles/.config/gtk-4.0 ~/.config/gtk-4.0
+ln -sf ~/.dotfiles/.config/kanshi ~/.config/kanshi
+ln -sf ~/.dotfiles/.config/Kvantum ~/.config/Kvantum
+ln -sf ~/.dotfiles/.config/micro ~/.config/micro
+ln -sf ~/.dotfiles/.config/mpv ~/.config/mpv
+ln -sf ~/.dotfiles/.config/nightTab ~/.config/nightTab
+ln -sf ~/.dotfiles/.config/nwg-dock-hyprland ~/.config/nwg-dock-hyprland
+ln -sf ~/.dotfiles/.config/nwg-drawer ~/.config/nwg-drawer
+ln -sf ~/.dotfiles/.config/nwg-launchers ~/.config/nwg-launchers
+ln -sf ~/.dotfiles/.config/nwg-look ~/.config/nwg-look
+ln -sf ~/.dotfiles/.config/qt5ct ~/.config/qt5ct
+ln -sf ~/.dotfiles/.config/qt6ct ~/.config/qt6ct
+ln -sf ~/.dotfiles/.config/swaync ~/.config/swaync
+ln -sf ~/.dotfiles/.config/wofi ~/.config/wofi
+ln -sf ~/.dotfiles/.config/wpaperd ~/.config/wpaperd
 ln -sf ~/.dotfiles/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/.p10k.zsh ~/.p10k.zsh
 ln -sf ~/.dotfiles/mimeapps.list ~/.config/mimeapps.list
@@ -211,26 +247,35 @@ spicetify backup apply
 ~/.dotfiles/
 ├── .config/
 │   ├── hypr/              # Hyprland compositor configuration
-│   │   ├── hyprland.conf  # Main config file
-│   │   └── scripts/       # Utility scripts
 │   ├── waybar/            # Status bar configuration
-│   │   ├── config.json    # Waybar modules
-│   │   └── style.css      # Waybar styling
-│   ├── kitty/             # Terminal emulator config
+│   ├── kitty/             # Terminal emulator (Kitty)
+│   ├── alacritty/         # Terminal emulator (Alacritty)
+│   ├── foot/              # Terminal emulator (Foot)
+│   ├── fish/              # Fish shell configuration
 │   ├── rofi/              # Application launcher themes
-│   │   ├── launchers/     # App launcher styles
-│   │   ├── powermenu/     # Power menu styles
-│   │   └── scripts/       # Launcher scripts
+│   ├── wofi/              # Wayland launcher configuration
 │   ├── neofetch/          # System info display
+│   ├── fastfetch/         # Fastfetch configuration
 │   ├── ranger/            # File manager config
-│   ├── mako/              # Notification daemon
+│   ├── mako/              # Notification daemon (Mako)
+│   ├── swaync/            # Notification center (SwayNC)
 │   ├── wal/               # Pywal templates
 │   ├── spicetify/         # Spotify theming
-│   └── BetterDiscord/     # Discord theming
+│   ├── BetterDiscord/     # Discord theming
+│   ├── micro/             # Micro text editor
+│   ├── mpv/               # MPV media player
+│   ├── btop/              # Btop resource monitor
+│   ├── cava/              # Audio visualizer
+│   ├── kanshi/            # Display profile manager
+│   ├── wpaperd/           # Wallpaper daemon
+│   ├── nwg-*/             # nwg-shell tools (look, drawer, dock, launchers)
+│   ├── gtk-*/             # GTK 2/3/4 settings
+│   ├── Kvantum/           # Qt style theme
+│   └── qt*ct/             # Qt5/6 configuration tools
 ├── Wallpapers/            # Wallpaper collection
 ├── .zshrc                 # Zsh configuration
-├── .p10k.zsh             # Powerlevel10k theme
-└── mimeapps.list         # Default applications
+├── .p10k.zsh              # Powerlevel10k theme
+└── mimeapps.list          # Default applications
 ```
 
 ## Keybindings
